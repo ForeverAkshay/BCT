@@ -1,4 +1,7 @@
-TAKE ENVIRONMENT AS CANCUM  
+/1.TAKE ENVIRONMENT AS CANCUM
+/2.Create file in contract named Student.sol
+/3. copy paste code
+/4.ESTIMATED GAS
 
 // SPDX-License-Identifier: MIT
 pragma solidity  ^0.8.0;
