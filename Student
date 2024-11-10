@@ -4,42 +4,61 @@
 /4.ESTIMATED GAS
 
 // SPDX-License-Identifier: MIT
-pragma solidity  ^0.8.0;
+pragma solidity >=0.4.0 <=0.9.0;
 
-contract Studentdata {
-    struct Student {
+contract StudentRegister {
+    address public owner;
+    mapping(address => student) students;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner {
+        require(msg.sender == owner, "Not the contract owner");
+        _;
+    }
+
+    struct student {
+        address studentId;
         string name;
-        uint256 rollno;
+        string course;
+        uint256 mark1;
+        uint256 mark2;
+        uint256 mark3;
+        uint256 totalMarks;
+        uint256 percentage;
+        bool isExist;
     }
 
-    // Fixed syntax error and declared 'studentarr' correctly
-    Student[] public studentarr;
+    function register(
+        address studentId,
+        string memory name,
+        string memory course,
+        uint256 mark1,
+        uint256 mark2,
+        uint256 mark3
+    ) public onlyOwner {
+        require(!students[studentId].isExist, "Student already registered");
 
-    // Corrected 'unit' to 'uint256'
-    function addStudent(string memory name, uint256 rollno) public {
-        for (uint i = 0; i < studentarr.length; i++) {
-            if (studentarr[i].rollno == rollno) {
-                revert("Student with this rollno already exists");
-            }
-        }
-        studentarr.push(Student(name, rollno));
+        uint256 totalMarks = mark1 + mark2 + mark3;
+        uint256 percentage = totalMarks / 3;
+
+        students[studentId] = student(studentId, name, course, mark1, mark2, mark3, totalMarks, percentage, true);
     }
 
-    // Corrected 'unit' to 'uint256'
-    function getStudentsLength() public view returns (uint256) {
-        return studentarr.length;
+    function getStudentDetails(address studentId)
+        public
+        view
+        returns (
+            address,
+            string memory,
+            string memory,
+            uint256,
+            uint256
+        )
+    {
+        student memory s = students[studentId];
+        return (s.studentId, s.name, s.course, s.totalMarks, s.percentage);
     }
-
-    function displayAllStudents() public view returns (Student[] memory) {
-        return studentarr;
-    }
-
-    // Removed duplicate function 'getStudentsLength'
-    function getStudentByIndex(uint256 idx) public view returns (Student memory) {
-        require(idx < studentarr.length, "index out of bound!");
-        return studentarr[idx];
-    }
-
-    fallback() external payable {}
-    receive() external payable {}
 }
