@@ -1,8 +1,3 @@
-/1.TAKE ENVIRONMENT AS CANCUM
-/2.Create file in contract named Student.sol
-/3. copy paste code
-/4.ESTIMATED GAS
-
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.0 <=0.9.0;
 
@@ -60,5 +55,10 @@ contract StudentRegister {
     {
         student memory s = students[studentId];
         return (s.studentId, s.name, s.course, s.totalMarks, s.percentage);
+    }
+
+    // Fallback function: handles cases where an unrecognized function is called
+    fallback() external payable {
+        // Optionally add code here to log or handle unexpected transactions
     }
 }
