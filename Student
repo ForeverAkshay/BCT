@@ -58,7 +58,7 @@ contract StudentRegister {
     }
 
     // Fallback function: handles cases where an unrecognized function is called
-    fallback() external payable {
+receive() external payable {
         // Optionally add code here to log or handle unexpected transactions
     }
 }
